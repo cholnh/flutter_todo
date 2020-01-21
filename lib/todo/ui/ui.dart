@@ -1,3 +1,3 @@
-export 'home_page.dart';
-export 'todo_page.dart';
-export 'test_page.dart';
+export 'page/todo_page.dart';
+export 'page/stat_page.dart';
+export 'page/more_page.dart';

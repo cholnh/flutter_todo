@@ -8,4 +8,6 @@ class TodoKeys {
   static final homeTab = Key('__homeTab__');
   // Demo
   static final demoPage = (String id) => Key('__demoPage_${id}__');
+  // Tab
+  static final tabSafeArea = Key('__tabSafeArea__');
 }

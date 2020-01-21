@@ -21,7 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "appName" : MessageLookupByLibrary.simpleMessage("포만감"),
+    "appName" : MessageLookupByLibrary.simpleMessage("Todo List"),
     "widgetMessage" : MessageLookupByLibrary.simpleMessage("위젯 메세지")
   };
 }

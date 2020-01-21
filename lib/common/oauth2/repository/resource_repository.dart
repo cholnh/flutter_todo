@@ -12,11 +12,15 @@ class ResourceRepository {
     @required String url,
     Locale locale,
   }) async {
-    var res = await DioCore().resource.get(url,
-      options: Options(headers: {
-        'Accept-Language': locale == null ? 'ko' : locale.languageCode,
-      }),
-    );
+    Options options = Options(headers: {
+      'Accept-Language': locale == null ? 'ko' : locale.languageCode,
+    });
+
+    var res = await DioCore().resource.get(url, options: options)
+      .catchError((err) async {
+        await ResourceRepository.resourceErrorHandler(err);
+        return await DioCore().resource.get(url, options: options);
+    });
 
     if(res != null && res.statusCode == HttpStatus.ok) {
       return res.data;
@@ -29,12 +33,15 @@ class ResourceRepository {
     Locale locale,
     FormData formData
   }) async {
-    var res = await DioCore().resource.post(url,
-        options: Options(headers: {
-          'Accept-Language': locale == null ? 'ko' : locale.languageCode,
-        }),
-        data: formData
-    );
+    Options options = Options(headers: {
+      'Accept-Language': locale == null ? 'ko' : locale.languageCode,
+    });
+
+    var res = await DioCore().resource.post(url, options: options, data: formData)
+      .catchError((err) async {
+        await ResourceRepository.resourceErrorHandler(err);
+        return await DioCore().resource.post(url, options: options, data: formData);
+    });
 
     if(res != null && res.statusCode == 200) {
       return res.data;

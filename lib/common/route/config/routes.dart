@@ -1,20 +1,32 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter_todo/common/route/handler/handler.dart' as h;
+import 'package:flutter_todo/tab/provider/tab_provider.dart';
+import 'package:flutter_todo/todo/provider/provider.dart';
+import 'package:flutter_todo/todo/ui/page/home_page.dart';
+import 'package:flutter_todo/todo/ui/page/not_found_page.dart';
+import 'package:provider/provider.dart';
 
 class Routes {
   static void configureRoutes(Router router) {
 
-    // home
+    // todo
     router.define("/",
-      handler: h.homeHandler,
+      handler:  Handler(handlerFunc: (context, params) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => CounterProvider()),
+            ChangeNotifierProvider(create: (_) => TabProvider()),
+
+          ],
+          child: HomePage(),
+        );
+      }),
       transitionType: TransitionType.material);
 
-    // demo
-    router.define("/demo/:id",
-      handler: h.homeHandler,
-      transitionType: TransitionType.material);
 
     // default
-    router.notFoundHandler = h.defaultHandler;
+    router.notFoundHandler =
+      Handler(handlerFunc: (context, params) {
+        return NotFoundPage();
+    });
   }
 }
