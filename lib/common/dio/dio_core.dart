@@ -13,6 +13,10 @@ class DioCore {
   }
 
   DioCore._internal() {
+    initialize();
+  }
+
+  initialize() {
     final BaseOptions options = BaseOptions(
       baseUrl: g.serverDomain,
       connectTimeout: g.connectTimeout,
@@ -37,5 +41,4 @@ class DioCore {
       }
     ));
   }
-
 }

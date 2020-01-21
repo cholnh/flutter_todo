@@ -6,6 +6,7 @@ import 'package:flutter_todo/common/config/config.dart' as g;
 
 import 'package:flutter_todo/common/dio/dio_core.dart';
 import 'package:flutter_todo/common/oauth2/domain/domain.dart';
+import 'package:flutter_todo/common/oauth2/exception/oauth_exception.dart';
 
 class OauthTokenRepository {
 
@@ -23,7 +24,13 @@ class OauthTokenRepository {
 
       return _token;
     } catch(e) {  // all error ->
-      return await issueGuestToken(); // guest token 발급
+      try {
+        return await issueGuestToken(); // guest token 발급
+      } catch(e) {
+        await OauthTokenRepository.serverHealthCheck() == 'UP'
+          ? throw OauthNetworkException(OauthExceptionType.networkError)       // 사용자 네트워크 문제일 가능성 높음
+          : throw OauthNetworkException(OauthExceptionType.serverMaintenance); // 서버 점검 중 공지 띄우기
+      }
     }
   }
 

@@ -84,15 +84,8 @@ class OauthTokenRepositoryTest implements Testable {
 
       // When
       token = await OauthTokenRepository.loadToken()
-          .catchError((err) async {
-        await OauthTokenRepository.serverHealthCheck() == 'UP'
-            ? print('server up')    // 사용자 네트워크 문제일 가능성 높음
-            : print('server down'); // 서버 점검 중 공지 띄우기
-      });
-
-      token
-          .saveToDioHeader()  // dio http header 추가
-          .saveToDisk();      // shared preference 저장
+        ..saveToDioHeader()  // dio http header 추가
+        ..saveToDisk();      // shared preference 저장
 
       isValidToken = await OauthTokenRepository.isValid(accessToken: token.accessToken);
 

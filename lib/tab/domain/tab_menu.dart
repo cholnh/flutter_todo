@@ -1,0 +1,1 @@
+enum TabMenu { todo, stat, more }

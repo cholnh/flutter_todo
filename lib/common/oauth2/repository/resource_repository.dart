@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_todo/common/dio/dio_core.dart';
+import 'package:flutter_todo/common/oauth2/repository/authorization_repository.dart';
 
 class ResourceRepository {
 
@@ -14,7 +17,8 @@ class ResourceRepository {
         'Accept-Language': locale == null ? 'ko' : locale.languageCode,
       }),
     );
-    if(res != null && res.statusCode == 200) {
+
+    if(res != null && res.statusCode == HttpStatus.ok) {
       return res.data;
     }
     return null;
@@ -31,9 +35,20 @@ class ResourceRepository {
         }),
         data: formData
     );
+
     if(res != null && res.statusCode == 200) {
       return res.data;
     }
     return null;
+  }
+
+  static resourceErrorHandler(err) async {
+    switch((err as DioError).response.statusCode) {
+      case HttpStatus.unauthorized:
+        await OauthTokenRepository.loadToken()
+          ..saveToDioHeader()
+          ..saveToDisk();
+        break;
+    }
   }
 }

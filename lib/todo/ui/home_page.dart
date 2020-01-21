@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/common/i18n/messages.dart';
+import 'package:flutter_todo/tab/provider/tab_provider.dart';
+import 'package:flutter_todo/tab/ui/widget/home_bottom_navigation_bar.dart';
 import 'package:flutter_todo/todo/provider/provider.dart';
 import 'package:flutter_todo/todo/ui/todo_page.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
             Text(
               'Home Page',
             ),
-            Consumer<Counter>(
+            Consumer<CounterProvider>(
                 builder: (context, counter, child) {
                   return Text(
                     '${counter.value}',
@@ -38,9 +40,17 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: Provider.of<Counter>(context, listen: false).increase,
+        onPressed: Provider.of<CounterProvider>(context, listen: false).increase,
         tooltip: 'Increment',
         child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: Consumer<TabProvider>(
+        builder: (context, homeTab, child) {
+          return HomeBottomNavigationBar(
+            activeTab: homeTab.tab,
+            onTabSelected: (tab) => Provider.of<TabProvider>(context, listen: false).change(tab),
+          );
+        }
       ),
     );
   }

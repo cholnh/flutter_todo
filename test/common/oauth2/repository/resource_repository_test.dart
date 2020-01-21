@@ -13,6 +13,7 @@ class ResourceRepositoryTest implements Testable {
 
     setUp(() async {
       dio = DioCore(); // singleton instance access
+      dio.initialize();
     });
 
     tearDown(() async {
@@ -47,10 +48,17 @@ class ResourceRepositoryTest implements Testable {
       final String url = '/';
       Token token;
       var res;
+      dio.initialize();
 
       // When
-      token = await OauthTokenRepository.loadToken();
-      res = await ResourceRepository.get(url: url);
+      token = await OauthTokenRepository.loadToken()
+        ..saveToDioHeader()
+        ..saveToDisk();
+      res = await ResourceRepository.get(url: url)
+        .catchError((err) async {
+          await ResourceRepository.resourceErrorHandler(err);
+          return await ResourceRepository.get(url: '/');
+      });
 
       // Then
       expect(token.accessToken != null, true);
