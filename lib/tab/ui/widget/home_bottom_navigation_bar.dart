@@ -12,6 +12,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('[Debug] HomeBottomNavigationBar.build');
     return SafeArea(
       key: TodoKeys.tabSafeArea,
       child: TabBar(

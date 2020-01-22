@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_todo/tab/domain/tab_menu.dart';
 
-class TabProvider with ChangeNotifier {
+class TabModel with ChangeNotifier {
   TabMenu tab;
 
-  TabProvider() {
+  TabModel() {
     tab = TabMenu.todo;
   }
 

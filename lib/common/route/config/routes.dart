@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter_todo/tab/provider/tab_provider.dart';
+import 'package:flutter_todo/tab/provider/tab_model.dart';
 import 'package:flutter_todo/todo/provider/provider.dart';
 import 'package:flutter_todo/todo/ui/page/home_page.dart';
 import 'package:flutter_todo/todo/ui/page/not_found_page.dart';
@@ -13,8 +13,8 @@ class Routes {
       handler:  Handler(handlerFunc: (context, params) {
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => CounterProvider()),
-            ChangeNotifierProvider(create: (_) => TabProvider()),
+            ChangeNotifierProvider(create: (_) => TodoModel()),
+            ChangeNotifierProvider(create: (_) => TabModel()),
 
           ],
           child: HomePage(),

@@ -10,4 +10,8 @@ class TodoKeys {
   static final demoPage = (String id) => Key('__demoPage_${id}__');
   // Tab
   static final tabSafeArea = Key('__tabSafeArea__');
+  // Todo
+  static final todoListView = Key('__todoListView__');
+  static final todoItem = (String id) => Key('__todoItem_${id}__');
+  static final todoItemCheckbox = (String id) => Key('__todoItemCheckbox_${id}__');
 }

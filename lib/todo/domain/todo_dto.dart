@@ -2,11 +2,11 @@
 import 'package:flutter_todo/todo/domain/domain.dart';
 
 class TodoDto {
-  final int idx;
-  final String username;
-  final String title;
-  final String contents;
-  final bool completed;
+  int idx;
+  String username;
+  String title;
+  String contents;
+  bool completed;
 
   TodoDto({this.idx, this.username, this.title, this.contents, this.completed});
 

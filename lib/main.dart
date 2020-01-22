@@ -8,7 +8,7 @@ import 'package:flutter_todo/common/i18n/i18n.dart';
 import 'package:flutter_todo/common/oauth2/exception/oauth_exception.dart';
 import 'package:flutter_todo/common/oauth2/repository/authorization_repository.dart';
 import 'package:flutter_todo/common/oauth2/repository/repository.dart';
-import 'package:flutter_todo/tab/provider/tab_provider.dart';
+import 'package:flutter_todo/tab/provider/tab_model.dart';
 import 'package:flutter_todo/todo/ui/page/home_page.dart';
 import 'package:provider/provider.dart';
 import 'todo/ui/ui.dart';
@@ -52,8 +52,8 @@ class MyApp extends StatelessWidget {
       home:
       MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => CounterProvider()),
-          ChangeNotifierProvider(create: (_) => TabProvider()),
+          ChangeNotifierProvider(create: (_) => TodoModel()),
+          ChangeNotifierProvider(create: (_) => TabModel()),
 
         ],
         child: HomePage(),
