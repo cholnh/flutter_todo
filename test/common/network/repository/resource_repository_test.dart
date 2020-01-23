@@ -1,11 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_todo/common/dio/dio_core.dart';
-import 'package:flutter_todo/common/oauth2/domain/domain.dart';
-import 'package:flutter_todo/common/oauth2/repository/repository.dart';
+import 'package:flutter_todo/common/network/dio/dio_core.dart';
+import 'package:flutter_todo/common/network/domain/token.dart';
+import 'package:flutter_todo/common/network/repository/authorization_repository.dart';
+import 'package:flutter_todo/common/network/repository/resource_repository.dart';
+import 'package:injector/injector.dart';
 
 import '../../../test.dart';
 
 class ResourceRepositoryTest implements Testable {
+
+  OauthTokenRepository _oauthTokenRepository;
+  ResourceRepository _resourceRepository;
+
+  ResourceRepositoryTest() {
+    Injector injector = Injector.appInstance;
+    _oauthTokenRepository = injector.getDependency<OauthTokenRepository>();
+    _resourceRepository = injector.getDependency<ResourceRepository>();
+  }
 
   @override
   run() {
@@ -28,11 +39,11 @@ class ResourceRepositoryTest implements Testable {
       String key, val;
 
       // When
-      token = await OauthTokenRepository.issueGuestToken();
+      token = await _oauthTokenRepository.issueGuestToken();
       key = 'Authorization';
       val = 'Bearer '+token.accessToken;
       dio.addResourceHeader({key: val});
-      res = await ResourceRepository.get(url: url);
+      res = await _resourceRepository.get(url: url);
 
       // Then
       expect(token.accessToken != null, true);
@@ -51,13 +62,13 @@ class ResourceRepositoryTest implements Testable {
       dio.initialize();
 
       // When
-      token = await OauthTokenRepository.loadToken()
+      token = await _oauthTokenRepository.loadToken()
         ..saveToDioHeader()
         ..saveToDisk();
-      res = await ResourceRepository.get(url: url)
+      res = await _resourceRepository.get(url: url)
         .catchError((err) async {
-          await ResourceRepository.resourceErrorHandler(err);
-          return await ResourceRepository.get(url: '/');
+          await _resourceRepository.resourceErrorHandler(err);
+          return await _resourceRepository.get(url: '/');
       });
 
       // Then

@@ -1,4 +1,4 @@
-import 'package:flutter_todo/todo/domain/domain.dart';
+import 'package:flutter_todo/todo/domain/todo.dart';
 
 abstract class TodoRepository {
   Future<List<Todo>> getAll();

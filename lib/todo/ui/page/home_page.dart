@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/tab/domain/tab_menu.dart';
 import 'package:flutter_todo/tab/provider/tab_model.dart';
-import 'package:flutter_todo/tab/tab.dart';
-import 'package:flutter_todo/todo/provider/provider.dart';
+import 'package:flutter_todo/tab/ui/widget/home_bottom_navigation_bar.dart';
+import 'package:flutter_todo/todo/provider/todo_model.dart';
 import 'package:flutter_todo/todo/ui/page/more_page.dart';
 import 'package:flutter_todo/todo/ui/page/stat_page.dart';
 import 'package:flutter_todo/todo/ui/page/todo_page.dart';

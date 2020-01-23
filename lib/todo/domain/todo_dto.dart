@@ -1,5 +1,5 @@
 
-import 'package:flutter_todo/todo/domain/domain.dart';
+import 'package:flutter_todo/todo/domain/todo.dart';
 
 class TodoDto {
   int idx;

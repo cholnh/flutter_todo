@@ -27,11 +27,15 @@ dependencies:
 
   device_info: ^0.4.1+4
 
+  injector: ^1.0.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   intl_translation: ^0.17.1
+
+  build_runner: ^1.0.0
 
 flutter:
 

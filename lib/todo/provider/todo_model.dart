@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/todo/domain/domain.dart';
+import 'package:flutter_todo/todo/domain/todo_dto.dart';
 
 class TodoModel with ChangeNotifier {
   List<TodoDto> todos = List();
   bool hasReachedMax = false;
-
-  TodoModel() {
-    print('[Debug] TodoProvider.TodoProvider');
-  }
 
   void fetch() async {
     if(hasReachedMax) return;

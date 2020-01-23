@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_todo/common/config/config.dart' as g;
-
-import 'package:flutter_todo/common/dio/dio_core.dart';
-import 'package:flutter_todo/common/oauth2/domain/domain.dart';
-import 'package:flutter_todo/common/oauth2/exception/oauth_exception.dart';
+import 'package:flutter_todo/common/network/constant/endpoint.dart';
+import 'package:flutter_todo/common/network/dio/dio_core.dart';
+import 'package:flutter_todo/common/network/domain/token.dart';
+import 'package:flutter_todo/common/network/exception/oauth_exception.dart';
 
 class OauthTokenRepository {
 
-  static Future<Token> loadToken() async {
+  Future<Token> loadToken() async {
     try {
       Token _token =
           await Token.loadFromDisk() // shared preference 로드
@@ -27,7 +26,7 @@ class OauthTokenRepository {
       try {
         return await issueGuestToken(); // guest token 발급
       } catch(e) {
-        await OauthTokenRepository.serverHealthCheck() == 'UP'
+        await serverHealthCheck() == 'UP'
           ? throw OauthNetworkException(OauthExceptionType.networkError)       // 사용자 네트워크 문제일 가능성 높음
           : throw OauthNetworkException(OauthExceptionType.serverMaintenance); // 서버 점검 중 공지 띄우기
       }
@@ -35,7 +34,7 @@ class OauthTokenRepository {
   }
 
   @visibleForTesting
-  static Future<bool> isValid({String accessToken}) async {
+  Future<bool> isValid({String accessToken}) async {
     try {
       var res = await DioCore().oauth.post('/oauth/check_token',
           data: FormData.fromMap({
@@ -49,10 +48,10 @@ class OauthTokenRepository {
     return false;
   }
 
-  static Future<Token> issueGuestToken() async {
+  Future<Token> issueGuestToken() async {
     var res = await DioCore().oauth.post('/oauth/token',
         options: Options(headers: {
-          'Authorization': 'Basic ' + g.guestOauthTokenHeader
+          'Authorization': 'Basic ' + Endpoint.guestOauthTokenHeader
         }),
         data: FormData.fromMap({
           'grant_type': 'client_credentials'
@@ -64,10 +63,10 @@ class OauthTokenRepository {
     return null;
   }
 
-  static Future<Token> issueLoginToken({String username, String password}) async {
+  Future<Token> issueLoginToken({String username, String password}) async {
     var res = await DioCore().oauth.post('/oauth/token',
         options: Options(headers: {
-          'Authorization': 'Basic ' + g.loginOauthTokenHeader
+          'Authorization': 'Basic ' + Endpoint.loginOauthTokenHeader
         }),
         data: FormData.fromMap({
           'grant_type': 'password',
@@ -82,10 +81,10 @@ class OauthTokenRepository {
     return null;
   }
 
-  static Future<Token> refreshLoginToken({String refreshToken}) async {
+  Future<Token> refreshLoginToken({String refreshToken}) async {
     var res = await DioCore().oauth.post('/oauth/token',
         options: Options(headers: {
-          'Authorization': 'Basic ' + g.loginOauthTokenHeader
+          'Authorization': 'Basic ' + Endpoint.loginOauthTokenHeader
         }),
         data: FormData.fromMap({
           'grant_type': 'refresh_token',
@@ -99,7 +98,7 @@ class OauthTokenRepository {
     return null;
   }
 
-  static Future<String> serverHealthCheck() async {
+  Future<String> serverHealthCheck() async {
     var res = await DioCore().oauth.get('/application/healthCheck');
     if(res != null && res.statusCode == 200) {
       return jsonDecode(res.data)['status'];

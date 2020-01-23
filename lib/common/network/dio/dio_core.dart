@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_todo/common/config/config.dart' as g;
+import 'package:flutter_todo/common/network/constant/endpoint.dart';
 
 class DioCore {
 
@@ -18,9 +18,9 @@ class DioCore {
 
   initialize() {
     final BaseOptions options = BaseOptions(
-      baseUrl: g.serverDomain,
-      connectTimeout: g.connectTimeout,
-      receiveTimeout: g.receiveTimeout,
+      baseUrl: Endpoint.serverDomain,
+      connectTimeout: Endpoint.connectTimeout,
+      receiveTimeout: Endpoint.receiveTimeout,
     );
 
     oauth = Dio(options);

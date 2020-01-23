@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_todo/common/oauth2/domain/domain.dart';
+import 'package:flutter_todo/common/network/domain/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../test.dart';

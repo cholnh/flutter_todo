@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/common/i18n/messages.dart';
-import 'package:flutter_todo/common/route/config/config.dart';
+import 'package:flutter_todo/common/router/app_router.dart';
+import 'package:injector/injector.dart';
 
 class NotFoundPage extends StatelessWidget {
+  final AppRouter router = Injector.appInstance.getDependency<AppRouter>();
+
   NotFoundPage({Key key}) : super(key: key);
 
   @override
@@ -21,11 +24,11 @@ class NotFoundPage extends StatelessWidget {
                   RaisedButton(
                     child: Text(Messages.notFoundHomeBtn),
                     color: Theme.of(context).accentColor,
-                    onPressed: () => Application.router.navigateTo(context, '/'),
+                    onPressed: () => router.navigateTo(context, '/'),
                   ),
                   RaisedButton(
                     child: Text(Messages.notFoundBackBtn),
-                    onPressed: () => Application.router.pop(context),
+                    onPressed: () => router.pop(context),
                   ),
                 ],
               )

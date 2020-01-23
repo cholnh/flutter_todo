@@ -1,6 +1,6 @@
 import 'package:flutter_todo/common/key/key.dart';
-import 'package:flutter_todo/todo/domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/todo/domain/todo_dto.dart';
 
 class TodoListItem extends StatelessWidget {
   final TodoDto todo;

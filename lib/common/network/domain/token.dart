@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_todo/common/dio/dio_core.dart';
+import 'package:flutter_todo/common/network/dio/dio_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_todo/common/key/shared_preference_key.dart' as s;
 

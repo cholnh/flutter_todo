@@ -1,11 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_todo/common/oauth2/domain/domain.dart';
-import 'package:flutter_todo/common/oauth2/repository/repository.dart';
+import 'package:flutter_todo/common/network/domain/token.dart';
+import 'package:flutter_todo/common/network/repository/authorization_repository.dart';
+import 'package:injector/injector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../test.dart';
 
 class OauthTokenRepositoryTest implements Testable {
+
+  OauthTokenRepository _oauthTokenRepository;
+
+  OauthTokenRepositoryTest() {
+    Injector injector = Injector.appInstance;
+    _oauthTokenRepository = injector.getDependency<OauthTokenRepository>();
+  }
 
   @override
   run() {
@@ -15,8 +23,8 @@ class OauthTokenRepositoryTest implements Testable {
       bool isValidToken;
 
       // When
-      guestToken = await OauthTokenRepository.issueGuestToken();
-      isValidToken = await OauthTokenRepository.isValid(accessToken: guestToken.accessToken);
+      guestToken = await _oauthTokenRepository.issueGuestToken();
+      isValidToken = await _oauthTokenRepository.isValid(accessToken: guestToken.accessToken);
 
       // Then
       expect(guestToken.accessToken != null, true);
@@ -31,8 +39,8 @@ class OauthTokenRepositoryTest implements Testable {
       bool isValidToken;
 
       // When
-      loginToken = await OauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
-      isValidToken = await OauthTokenRepository.isValid(accessToken: loginToken.accessToken);
+      loginToken = await _oauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
+      isValidToken = await _oauthTokenRepository.isValid(accessToken: loginToken.accessToken);
 
       // Then
       expect(loginToken.accessToken != null, true);
@@ -47,8 +55,8 @@ class OauthTokenRepositoryTest implements Testable {
       Token refreshedToken;
 
       // When
-      loginToken = await OauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
-      refreshedToken = await OauthTokenRepository.refreshLoginToken(refreshToken: loginToken.refreshToken);
+      loginToken = await _oauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
+      refreshedToken = await _oauthTokenRepository.refreshLoginToken(refreshToken: loginToken.refreshToken);
 
       // Then
       expect(refreshedToken.accessToken != null, true);
@@ -56,8 +64,8 @@ class OauthTokenRepositoryTest implements Testable {
       expect(refreshedToken.accessToken != loginToken.accessToken, true);
       expect(refreshedToken.refreshToken, equals(loginToken.refreshToken));
       expect(refreshedToken.tokenMode, equals(TokenMode.LOGIN));
-      expect(await OauthTokenRepository.isValid(accessToken: refreshedToken.accessToken), true);
-      expect(await OauthTokenRepository.isValid(accessToken: refreshedToken.refreshToken), false);
+      expect(await _oauthTokenRepository.isValid(accessToken: refreshedToken.accessToken), true);
+      expect(await _oauthTokenRepository.isValid(accessToken: refreshedToken.refreshToken), false);
     });
 
     test('Oauth Token Repository Test - isValid()', () async {
@@ -66,9 +74,9 @@ class OauthTokenRepositoryTest implements Testable {
       bool isValidToken, isInValidToken;
 
       // When
-      normalToken = await OauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
-      isValidToken = await OauthTokenRepository.isValid(accessToken: normalToken.accessToken);
-      isInValidToken = await OauthTokenRepository.isValid(accessToken: 'this-is-abnormal-token');
+      normalToken = await _oauthTokenRepository.issueLoginToken(username: 'admin', password: '1234');
+      isValidToken = await _oauthTokenRepository.isValid(accessToken: normalToken.accessToken);
+      isInValidToken = await _oauthTokenRepository.isValid(accessToken: 'this-is-abnormal-token');
 
       // Then
       expect(isValidToken, true);
@@ -83,11 +91,11 @@ class OauthTokenRepositoryTest implements Testable {
       bool isValidToken;
 
       // When
-      token = await OauthTokenRepository.loadToken()
+      token = await _oauthTokenRepository.loadToken()
         ..saveToDioHeader()  // dio http header 추가
         ..saveToDisk();      // shared preference 저장
 
-      isValidToken = await OauthTokenRepository.isValid(accessToken: token.accessToken);
+      isValidToken = await _oauthTokenRepository.isValid(accessToken: token.accessToken);
 
       // Then
       expect(token.accessToken != null, true);
@@ -105,7 +113,7 @@ class OauthTokenRepositoryTest implements Testable {
       String serverHealth;
 
       // When
-      serverHealth = await OauthTokenRepository.serverHealthCheck();
+      serverHealth = await _oauthTokenRepository.serverHealthCheck();
 
       // Then
       expect(serverHealth, equals('UP'));
