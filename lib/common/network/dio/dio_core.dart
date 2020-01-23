@@ -3,9 +3,14 @@ import 'package:flutter_todo/common/network/constant/endpoint.dart';
 
 class DioCore {
 
+
+  //━━ class variables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   Dio oauth;
   Dio resource;
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
+
+  //━━ singleton constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   static final DioCore _singleton = DioCore._internal();
 
   factory DioCore() {
@@ -15,7 +20,10 @@ class DioCore {
   DioCore._internal() {
     initialize();
   }
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
+
+  //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   initialize() {
     final BaseOptions options = BaseOptions(
       baseUrl: Endpoint.serverDomain,
@@ -41,4 +49,5 @@ class DioCore {
       }
     ));
   }
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 }

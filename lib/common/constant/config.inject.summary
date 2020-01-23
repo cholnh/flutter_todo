@@ -1,8 +1,0 @@
-{
-  "asset": "asset:flutter_todo/lib/common/config/config.dart",
-  "summary": {
-    "injector": [],
-    "module": [],
-    "injectable": []
-  }
-}

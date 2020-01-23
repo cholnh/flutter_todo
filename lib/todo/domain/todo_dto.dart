@@ -2,14 +2,28 @@
 import 'package:flutter_todo/todo/domain/todo.dart';
 
 class TodoDto {
+
+
+  //━━ class variables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   int idx;
   String username;
   String title;
   String contents;
   bool completed;
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
-  TodoDto({this.idx, this.username, this.title, this.contents, this.completed});
 
+  //━━ constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+  TodoDto({
+    this.idx,
+    this.username,
+    this.title,
+    this.contents,
+    this.completed});
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+  //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   Todo toEntity() => Todo(
     idx: idx,
     username: username,
@@ -18,7 +32,8 @@ class TodoDto {
     completed: completed
   );
 
-  static List<Todo> toEntities(List<TodoDto> dtos) => dtos.map((dto) => dto.toEntity()).toList();
+  static List<Todo> toEntities(List<TodoDto> dtos)
+    => dtos.map((dto) => dto.toEntity()).toList();
 
   static TodoDto fromEntity(Todo entity) => TodoDto(
     idx: entity.idx,
@@ -28,7 +43,8 @@ class TodoDto {
     completed: entity.completed ?? false,
   );
 
-  static List<TodoDto> fromEntities(List<Todo> entities) => entities.map(fromEntity).toList();
+  static List<TodoDto> fromEntities(List<Todo> entities)
+    => entities.map(fromEntity).toList();
 
   TodoDto copyWith({int idx, String username, String title, String contents, bool completed}) {
     return TodoDto(
@@ -44,4 +60,5 @@ class TodoDto {
   String toString() {
     return 'TodoDto{idx: $idx, username: $username, title: $title, contents: $contents, completed: $completed}';
   }
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 }

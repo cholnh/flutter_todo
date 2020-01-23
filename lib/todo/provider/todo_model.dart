@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todo/todo/domain/todo_dto.dart';
 
 class TodoModel with ChangeNotifier {
+
+
+  //━━ class variables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   List<TodoDto> todos = List();
   bool hasReachedMax = false;
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
+
+  //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   void fetch() async {
     if(hasReachedMax) return;
     todos.addAll(await _getData(0, 20));
@@ -41,6 +47,5 @@ class TodoModel with ChangeNotifier {
     }
     return list;
   }
-
-
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 }

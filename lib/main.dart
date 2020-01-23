@@ -11,21 +11,28 @@ import 'package:injector/injector.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  InjectorRegister.register();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
 
-  final AppRouter router = Injector.appInstance.getDependency<AppRouter>();
 
+  //━━ class variables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+  final AppRouter router = Injector.appInstance.getDependency<AppRouter>();
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+
+  //━━ constructor ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   MyApp() { // initialize
+    InjectorRegister.register();
     Future(() async => Injector.appInstance.getDependency<NetworkService>()
       ..initialize(
         networkErrorHandler: () => print('serverError !'),
         maintenanceErrorHandler: () => print('maintenanceError !')
     ));
   }
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
 
   @override
   Widget build(BuildContext context) {

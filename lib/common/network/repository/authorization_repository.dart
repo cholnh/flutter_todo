@@ -9,6 +9,8 @@ import 'package:flutter_todo/common/network/exception/oauth_exception.dart';
 
 class OauthTokenRepository {
 
+
+  //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   Future<Token> loadToken() async {
     try {
       Token _token =
@@ -105,4 +107,5 @@ class OauthTokenRepository {
     }
     return null;
   }
+  //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 }

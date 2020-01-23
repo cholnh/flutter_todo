@@ -8,6 +8,7 @@ import 'package:flutter_todo/common/network/service/network_service.dart';
 
 class NetworkServiceImpl implements NetworkService {
 
+
   //━━ class variables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   final OauthTokenRepository oauthTokenRepository;
   final ResourceRepository resourceRepository;
