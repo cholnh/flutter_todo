@@ -10,6 +10,10 @@ class Messages {
       name: 'appName'
   );
 
+  static String get companyName => Intl.message('© LOCALLECT:ON',
+      name: 'companyName'
+  );
+
   // not found
   static String get notFoundMsg => Intl.message('UNKNOWN PAGE',
       name: 'notFoundMsg'
@@ -21,6 +25,10 @@ class Messages {
 
   static String get notFoundHomeBtn => Intl.message('home',
       name: 'notFoundHomeBtn'
+  );
+
+  static String get errorMsg => Intl.message('Error',
+      name: 'errorMsg'
   );
 
 }

@@ -24,14 +24,8 @@ class OauthTokenRepository {
           : await refreshLoginToken(refreshToken: _token.refreshToken);
 
       return _token;
-    } catch(e) {  // all error ->
-      try {
-        return await issueGuestToken(); // guest token 발급
-      } catch(e) {
-        await serverHealthCheck() == 'UP'
-          ? throw OauthNetworkException(OauthExceptionType.networkError)       // 사용자 네트워크 문제일 가능성 높음
-          : throw OauthNetworkException(OauthExceptionType.serverMaintenance); // 서버 점검 중 공지 띄우기
-      }
+    } catch(e) {
+      return await issueGuestToken(); // guest token 발급
     }
   }
 
@@ -101,9 +95,13 @@ class OauthTokenRepository {
   }
 
   Future<String> serverHealthCheck() async {
-    var res = await DioCore().oauth.get('/application/healthCheck');
-    if(res != null && res.statusCode == 200) {
-      return jsonDecode(res.data)['status'];
+    try {
+      var res = await DioCore().oauth.get('/application/healthCheck');
+      if(res != null && res?.statusCode == 200) {
+        return jsonDecode(res.data)['status'];
+      }
+    } catch(e) {
+      throw OauthNetworkException(OauthExceptionType.serverClosed); // 서버가 아예 닫
     }
     return null;
   }

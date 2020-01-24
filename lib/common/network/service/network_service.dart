@@ -2,9 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 abstract class NetworkService {
-  void initialize({
-    Function networkErrorHandler,
-    Function maintenanceErrorHandler
+  initialize({
+    Function networkErrorHandler
   });
   get({
     @required String url,

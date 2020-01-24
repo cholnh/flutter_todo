@@ -1,4 +1,4 @@
-enum OauthExceptionType { networkError, serverMaintenance }
+enum OauthExceptionType { networkError, serverMaintenance, serverClosed }
 
 class OauthNetworkException implements Exception {
   OauthExceptionType type;

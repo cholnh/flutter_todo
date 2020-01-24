@@ -40,12 +40,6 @@ class DioCore {
       onRequest:(RequestOptions options) async {
         options.headers.addAll(header);
         return options;
-      },
-      onResponse:(Response response) async {
-        return response;
-      },
-      onError: (DioError e) async {
-        return  e;
       }
     ));
   }

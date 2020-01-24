@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/common/network/domain/token.dart';
 import 'package:flutter_todo/common/network/exception/oauth_exception.dart';
 import 'package:flutter_todo/common/network/repository/authorization_repository.dart';
 import 'package:flutter_todo/common/network/repository/resource_repository.dart';
@@ -22,20 +25,21 @@ class NetworkServiceImpl implements NetworkService {
 
   //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   @override
-  void initialize({
-    Function networkErrorHandler,
-    Function maintenanceErrorHandler}) async {
-      await oauthTokenRepository.loadToken()
+  initialize({Function networkErrorHandler}) async {
+      Token _token = await oauthTokenRepository.loadToken()
         .catchError((err) {
-          OauthExceptionType type = (err as OauthNetworkException).type;
-          if(type == OauthExceptionType.networkError) {
+          if(err.error is SocketException) {
             networkErrorHandler();
-          } else if(type == OauthExceptionType.serverMaintenance) {
-            maintenanceErrorHandler();
           }
-      })
-        ..saveToDioHeader()
-        ..saveToDisk();
+      });
+
+      if(_token != null) {
+        _token
+          ..saveToDioHeader()
+          ..saveToDisk();
+      } else {
+        throw OauthNetworkException(OauthExceptionType.networkError);
+      }
   }
 
   @override
