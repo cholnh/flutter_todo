@@ -18,8 +18,8 @@ class OauthTokenRepository {
               ?? await issueGuestToken();
 
       _token = await isValid(accessToken: _token.accessToken)
-          ? _token
-          : _token.tokenMode == TokenMode.GUEST
+        ? _token
+        : _token.tokenMode == TokenMode.GUEST
           ? await issueGuestToken()
           : await refreshLoginToken(refreshToken: _token.refreshToken);
 

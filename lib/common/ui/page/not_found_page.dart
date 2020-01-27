@@ -24,7 +24,7 @@ class NotFoundPage extends StatelessWidget {
                   RaisedButton(
                     child: Text(Messages.notFoundHomeBtn),
                     color: Theme.of(context).accentColor,
-                    onPressed: () => router.navigateTo(context, '/'),
+                    onPressed: () => router.navigateTo(context, '/', replace: true),
                   ),
                   RaisedButton(
                     child: Text(Messages.notFoundBackBtn),

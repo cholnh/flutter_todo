@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/common/i18n/messages.dart';
+import 'package:flutter_todo/common/network/domain/sign_state.dart';
+import 'package:flutter_todo/common/network/provider/user_model.dart';
+import 'package:provider/provider.dart';
 
 class HomeAppBar extends AppBar {
   HomeAppBar() : super(
@@ -16,6 +19,17 @@ class HomeAppBar extends AppBar {
       onTap: () => print('tab!'),
     ),
     actions: <Widget>[
+      Consumer<UserModel>(
+        builder: (_, model, child) {
+          if(model.signState == SignState.signedIn) {
+            return Container(
+              padding: EdgeInsets.all(5),
+              child: Text('${model.userInfo.nickname}'),
+            );
+          }
+          return Container();
+        },
+      ),
       IconButton(
         icon: Icon(Icons.refresh),
         onPressed: () => print('refresh!'),

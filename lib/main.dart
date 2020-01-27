@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_todo/common/di/injector_register.dart';
 import 'package:flutter_todo/common/i18n/i18n.dart';
+import 'package:flutter_todo/common/network/provider/user_model.dart';
 import 'package:flutter_todo/common/router/app_router.dart';
 import 'package:flutter_todo/splash/ui/splash_page.dart';
 import 'package:flutter_todo/tab/provider/tab_model.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => TodoModel()),
         ChangeNotifierProvider(create: (_) => TabModel()),
+        ChangeNotifierProvider(create: (_) => UserModel()),
 
       ],
       child: MaterialApp(

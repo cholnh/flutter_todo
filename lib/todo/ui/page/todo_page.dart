@@ -25,24 +25,24 @@ class _TodoPageState extends State<TodoPage> {
 
   @override
   Widget build(BuildContext context) {
-    TodoModel _todoProvider = Provider.of<TodoModel>(context);
+    TodoModel _todoModel = Provider.of<TodoModel>(context);
     return ListView.separated(
       key: TodoKeys.todoListView,
       itemBuilder: (context, index) {
-        return index >= _todoProvider.todos.length
+        return index >= _todoModel.todos.length
             ? BottomLoader()
             : TodoListItem(
-                todo: _todoProvider.todos[index],
+                todo: _todoModel.todos[index],
                 onCheckboxChanged: (isUnChecked) {
-                  _todoProvider.toggle(_todoProvider.todos[index].idx);
+                  _todoModel.toggle(_todoModel.todos[index].idx);
                 });
       },
       separatorBuilder: (context, index) {
         return Divider();
       },
-      itemCount: _todoProvider.hasReachedMax
-          ? _todoProvider.todos.length
-          : _todoProvider.todos.length + 1,
+      itemCount: _todoModel.hasReachedMax
+          ? _todoModel.todos.length
+          : _todoModel.todos.length + 1,
       controller: _scrollController,
     );
 

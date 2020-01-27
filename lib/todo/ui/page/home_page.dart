@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/common/network/domain/sign_state.dart';
+import 'package:flutter_todo/common/network/provider/user_model.dart';
 import 'package:flutter_todo/tab/domain/tab_menu.dart';
 import 'package:flutter_todo/tab/provider/tab_model.dart';
 import 'package:flutter_todo/tab/ui/widget/home_bottom_navigation_bar.dart';
 import 'package:flutter_todo/todo/provider/todo_model.dart';
 import 'package:flutter_todo/todo/ui/page/more_page.dart';
+import 'package:flutter_todo/todo/ui/page/more_signed_page.dart';
 import 'package:flutter_todo/todo/ui/page/stat_page.dart';
 import 'package:flutter_todo/todo/ui/page/todo_page.dart';
 import 'package:flutter_todo/todo/ui/widget/home_app_bar.dart';
@@ -30,10 +33,12 @@ class _HomePageState extends State<HomePage>
       );
     });
     Provider.of<TodoModel>(context, listen: false).fetch();
+
   }
 
   @override
   Widget build(BuildContext context) {
+    UserModel userModel = Provider.of<UserModel>(context);
     return WillPopScope(
       onWillPop: () => Future.value(false), // 뒤로가기 방지
       child: DefaultTabController(
@@ -45,7 +50,9 @@ class _HomePageState extends State<HomePage>
             children: <Widget>[
               TodoPage(),
               StatPage(),
-              MorePage()
+              userModel.signState == SignState.signedIn
+                ? MoreSignedPage()
+                : MorePage()
             ],
           ),
           floatingActionButton: HomeFab(),
