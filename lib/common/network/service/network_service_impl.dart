@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/common/network/domain/token.dart';
@@ -67,7 +65,8 @@ class NetworkServiceImpl implements NetworkService {
 
   @override
   signOut() {
-
+    Token.clearFromDisk();
+    Token.clearFromDioHeader();
   }
 
   @override
@@ -79,14 +78,34 @@ class NetworkServiceImpl implements NetworkService {
   get({
     @required String url,
     Locale locale
-  }) => resourceRepository.get(url: null, locale: locale);
+  }) => resourceRepository.get(url: url, locale: locale);
 
 
   @override
   post({
     @required String url,
     Locale locale,
-    FormData formData
-  }) => resourceRepository.post(url: null, locale: locale, formData: formData);
+    Map jsonData
+  }) => resourceRepository.post(url: url, locale: locale, jsonData: jsonData);
+
+  @override
+  patch({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  }) => resourceRepository.patch(url: url, locale: locale, jsonData: jsonData);
+
+  @override
+  put({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  }) => resourceRepository.put(url: url, locale: locale, jsonData: jsonData);
+
+  @override
+  delete({
+    @required String url,
+    Locale locale
+  }) => resourceRepository.delete(url: url, locale: locale);
   //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 }

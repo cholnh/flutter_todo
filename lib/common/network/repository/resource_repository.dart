@@ -24,41 +24,62 @@ class ResourceRepository {
     @required String url,
     Locale locale,
   }) async {
-    Options options = Options(headers: {
-      'Accept-Language': locale == null ? 'ko' : locale.languageCode,
-    });
-
-    var res = await DioCore().resource.get(url, options: options)
-      .catchError((err) async {
-        await resourceErrorHandler(err);
-        return await DioCore().resource.get(url, options: options);
-    });
-
-    if(res != null && res.statusCode == HttpStatus.ok) {
-      return res.data;
-    }
-    return null;
+    return await _httpAction((url, options, formData) async
+    => await DioCore().resource.get(url, options: options),
+        url, locale, null);
   }
 
   post({
     @required String url,
     Locale locale,
-    FormData formData
+    Map jsonData
   }) async {
+
+    return await _httpAction((url, options, formData) async
+    => await DioCore().resource.post(url, options: options, data: formData),
+        url, locale, jsonData);
+  }
+
+  patch({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  }) async {
+    return await _httpAction((url, options, formData) async
+    => await DioCore().resource.patch(url, options: options, data: formData),
+        url, locale, jsonData);
+  }
+
+  put({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  }) async {
+
+    return await _httpAction((url, options, formData) async
+    => await DioCore().resource.put(url, options: options, data: formData),
+        url, locale, jsonData);
+  }
+
+  delete({
+    @required String url,
+    Locale locale
+  }) async {
+
+    await _httpAction((url, options) async
+      => await DioCore().resource.delete(url, options: options),
+      url, locale, null);
+  }
+
+  _httpAction(Function innerFunc, String url, Locale locale, Map jsonData) async {
     Options options = Options(headers: {
       'Accept-Language': locale == null ? 'ko' : locale.languageCode,
     });
 
-    var res = await DioCore().resource.post(
-        url,
-        options: options,
-        data: formData)
-      .catchError((err) async {
-        await resourceErrorHandler(err);
-        return await DioCore().resource.post(
-            url,
-            options: options,
-            data: formData);
+    var res = await innerFunc(url, options, jsonData)
+        .catchError((err) async {
+      await resourceErrorHandler(err);
+      return await innerFunc(url, options, jsonData);
     });
 
     if(res != null && res.statusCode == 200) {
@@ -68,6 +89,7 @@ class ResourceRepository {
   }
 
   resourceErrorHandler(err) async {
+    print('error!! $err ${(err as DioError).response.data}');
     switch((err as DioError).response.statusCode) {
       case HttpStatus.unauthorized:
         await oauthTokenRepository.loadToken()

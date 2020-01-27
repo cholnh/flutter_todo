@@ -44,7 +44,7 @@ class TodoDto {
   );
 
   static List<TodoDto> fromEntities(List<Todo> entities)
-    => entities.map(fromEntity).toList();
+    => entities.map((entity) => fromEntity(entity)).toList();
 
   TodoDto copyWith({int idx, String username, String title, String contents, bool completed}) {
     return TodoDto(

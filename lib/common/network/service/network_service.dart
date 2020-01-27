@@ -16,6 +16,20 @@ abstract class NetworkService {
   post({
     @required String url,
     Locale locale,
-    FormData formData
+    Map jsonData
+  });
+  patch({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  });
+  put({
+    @required String url,
+    Locale locale,
+    Map jsonData
+  });
+  delete({
+    @required String url,
+    Locale locale
   });
 }

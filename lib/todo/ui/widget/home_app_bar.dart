@@ -23,16 +23,12 @@ class HomeAppBar extends AppBar {
         builder: (_, model, child) {
           if(model.signState == SignState.signedIn) {
             return Container(
-              padding: EdgeInsets.all(5),
+              margin: EdgeInsets.all(20),
               child: Text('${model.userInfo.nickname}'),
             );
           }
           return Container();
         },
-      ),
-      IconButton(
-        icon: Icon(Icons.refresh),
-        onPressed: () => print('refresh!'),
       ),
     ],
   );

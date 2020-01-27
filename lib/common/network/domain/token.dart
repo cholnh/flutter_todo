@@ -99,11 +99,25 @@ class Token {
     return this;
   }
 
+  static clearFromDisk() async {
+    await SharedPreferences.getInstance()
+      ..remove(s.tokenMode)
+      ..remove(s.refreshToken)
+      ..remove(s.accessToken)
+      ..remove(s.tokenType)
+      ..remove(s.expiresIn)
+      ..remove(s.scope);
+  }
+
   saveToDioHeader() {
     DioCore().addResourceHeader({
       'Authorization':'Bearer ' + accessToken
     }); // interceptor header 추가
     return this;
+  }
+
+  static clearFromDioHeader() {
+    DioCore().resource.interceptors.clear();
   }
 
   @override

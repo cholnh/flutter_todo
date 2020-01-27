@@ -1,3 +1,5 @@
+import 'package:flutter_todo/common/network/domain/page_request.dart';
+import 'package:flutter_todo/todo/domain/todo.dart';
 import 'package:flutter_todo/todo/domain/todo_dto.dart';
 import 'package:flutter_todo/todo/repository/todo_repository.dart';
 import 'package:flutter_todo/todo/service/todo_service.dart';
@@ -17,24 +19,30 @@ class TodoServiceImpl implements TodoService{
 
   //━━ actions ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
   @override
-  Future<bool> delete(TodoDto todo) async {
-    return todoRepository.delete(todo.toEntity());
+  Future<int> count() async {
+    return todoRepository.count();
   }
 
   @override
-  Future<bool> update(TodoDto todo) async {
-    return todoRepository.update(todo.toEntity());
+  Future<List<TodoDto>> get(PageRequest pageRequest) async {
+    return TodoDto.fromEntities(await todoRepository.get(pageRequest));
   }
 
   @override
-  Future<bool> insert(TodoDto todo) async {
-    return todoRepository.update(todo.toEntity());
-  }
+  Future<List<TodoDto>> getAll() async
+    => TodoDto.fromEntities(await todoRepository.getAll());
 
   @override
-  Future<List<TodoDto>> getAll() async {
-    return TodoDto.fromEntities(await todoRepository.getAll());
-  }
+  Future<TodoDto> update(TodoDto todo) async
+    => TodoDto.fromEntity(await todoRepository.update(todo.toEntity()));
+
+  @override
+  Future<TodoDto> insert(TodoDto todo) async
+    => TodoDto.fromEntity(await todoRepository.insert(todo.toEntity()));
+
+  @override
+  delete(int idx) async
+    => await todoRepository.delete(idx);
   //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 
 }

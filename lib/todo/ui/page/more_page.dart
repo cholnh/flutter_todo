@@ -21,54 +21,57 @@ class _MorePageState extends State<MorePage> {
   Widget build(BuildContext context) {
     return Form(
       key: TodoKeys.loginForm,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.person),
-                labelText: 'Username',
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.person),
+                  labelText: 'Username',
+                ),
+                onSaved: (value) {
+                  _username = value;
+                },
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter username';
+                  }
+                  return null;
+                },
               ),
-              onSaved: (value) {
-                _username = value;
-              },
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter username';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(Icons.lock),
-                labelText: 'Password',
+              TextFormField(
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.lock),
+                  labelText: 'Password',
+                ),
+                onSaved: (value) {
+                  _password = value;
+                },
+                obscureText: true,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter password';
+                  }
+                  return null;
+                },
               ),
-              onSaved: (value) {
-                _password = value;
-              },
-              obscureText: true,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter password';
-                }
-                return null;
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: RaisedButton(
-                onPressed: _submitForm,
-                child: Text('Sign In'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RaisedButton(
+                  onPressed: _submitForm,
+                  child: Text('Sign In'),
+                ),
               ),
-            ),
-            Consumer<UserModel>(
-              builder: (_, model, child) {
-                return Text('${model.signState}');
-              },
-            )
-          ],
+              Consumer<UserModel>(
+                builder: (_, model, child) {
+                  return Text('${model.signState}');
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

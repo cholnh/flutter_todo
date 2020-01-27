@@ -4,6 +4,7 @@ import 'package:flutter_todo/common/network/repository/resource_repository.dart'
 import 'package:flutter_todo/common/network/service/network_service.dart';
 import 'package:flutter_todo/common/network/service/network_service_impl.dart';
 import 'package:flutter_todo/common/router/app_router.dart';
+import 'package:flutter_todo/todo/provider/todo_model.dart';
 import 'package:flutter_todo/todo/repository/todo_repository_impl.dart';
 import 'package:flutter_todo/todo/repository/todo_repository.dart';
 import 'package:flutter_todo/todo/service/todo_service.dart';
@@ -61,14 +62,17 @@ class InjectorRegister {
       ///
       /// Calling it multiple times will return the same instance.
       ..registerDependency<TodoRepository>
-        ((_) => TodoRepositoryImpl())
+        ((injector) => TodoRepositoryImpl(
+        networkService: injector.getDependency<NetworkService>()))
 
 
       /// A singleton TodoService provider.
       ///
       /// Calling it multiple times will return the same instance.
       ..registerDependency<TodoService>
-      ((_) => TodoServiceImpl());
+      ((injector) => TodoServiceImpl(
+          todoRepository: injector.getDependency<TodoRepository>()));
+
 
   }
 }

@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_todo/common/network/domain/sign_state.dart';
 import 'package:flutter_todo/common/network/domain/user_dto.dart';
-import 'package:flutter_todo/common/network/exception/oauth_exception.dart';
 import 'package:flutter_todo/common/network/service/network_service.dart';
 import 'package:injector/injector.dart';
 
@@ -47,6 +45,7 @@ class UserModel with ChangeNotifier {
   signOut() {
     userInfo = null;
     signState = SignState.signedOut;
+    _networkService.signOut();
     notifyListeners();
   }
 
